@@ -10,7 +10,7 @@ export class TaskController {
       task.project = project.id;
       project.tasks.push(task.id);
       await Promise.allSettled([task.save(), project.save()]);
-      res.status(200).json({ msg: "Created Task" });
+      res.status(200).send('created task');
     } catch (error) {
       console.log(error);
     }

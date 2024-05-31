@@ -5,7 +5,7 @@ export class ProjectController {
 
   static createProject = async (req: Request, res: Response) => {
     const project = new Project(req.body);
-    console.log(project);
+    
     try {
       await project.save();
       res.status(201).json({ msg: "Project Created", project });
@@ -17,7 +17,7 @@ export class ProjectController {
   static getAllProjects = async (req: Request, res: Response) => {
     try {
       const projects = await Project.find({});
-      if (!projects) return res.status(400).json({ msg: "Not Found" });
+      if (!projects) return res.status(400).json({ msg: "Projects Not Found" });
       res.status(200).json(projects);
     } catch (error) {
       console.log(error);
@@ -47,7 +47,7 @@ export class ProjectController {
       project.clientName= clientName;
       project.description=description;
       const projectUpdate = await project.save()
-      res.status(202).json({msg:'Update Project', projectUpdate})
+      res.status(202).send('Update Project')
 
       // * 2da forma actualizacion directa con mongoose
       // const project = await Project.findByIdAndUpdate(id , req.body)
