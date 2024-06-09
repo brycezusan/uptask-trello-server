@@ -31,12 +31,7 @@ export class TaskController {
   static getTaskById = async (req: Request, res: Response) => {
     const {task} = req;
     try {
-      res.status(200).json({
-        id: task.id,
-        name: task.name,
-        description: task.description,
-        status: task.status,
-      });
+      res.status(200).json(task);
     } catch (error) {
       console.log(error);
     }
