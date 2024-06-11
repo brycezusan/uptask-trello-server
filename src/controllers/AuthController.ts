@@ -3,6 +3,7 @@ import User from "../models/User";
 import Token from "../models/Token";
 import { checkPassword, generateToken, hashPassword } from "../utils";
 import { AuthEmail } from "../mails/AuthEmail";
+import { generateJWT } from "../utils/jwt";
 
 export class AuthController {
   static createAccount = async (req: Request, res: Response) => {
@@ -63,7 +64,8 @@ export class AuthController {
       if (!isValidPassword) {
         return res.status(401).send("creedentials not valid");
       } else {
-        return res.send(`welcome ${user.name}`);
+        const token = generateJWT({id:user.id});
+        return res.send(token);
       }
     } catch (error) {
       console.log(error);
@@ -147,7 +149,7 @@ export class AuthController {
         return res.status(404).json({ error: "Token no válido" });
       const user = await User.findById(tokenExist.user);
       user.password = await hashPassword(password);
-      user.confirmed= true
+      user.confirmed = true;
       await Promise.allSettled([user.save(), tokenExist.deleteOne()]);
       res.status(202).send("update password");
     } catch (error) {

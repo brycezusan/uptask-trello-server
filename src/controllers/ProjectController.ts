@@ -4,6 +4,7 @@ import Project from "../models/Project";
 export class ProjectController {
 
   static createProject = async (req: Request, res: Response) => {
+    console.log(req.user);
     const project = new Project(req.body);
     
     try {
